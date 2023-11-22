@@ -1,12 +1,21 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission here
+        const url = "http://localhost/flagsgame/pages/api/main.php";
+        let data = new FormData();
+        data.append("email", email);
+        data.append("password", password);
+
+        axios
+            .post(url, data)
+            .then((response) => alert(response.data))
+            .catch((error) => alert(error));
     };
 
     return (
@@ -58,6 +67,7 @@ export default function SignUp() {
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={handleSubmit}
                         >
                             Sign up
                         </button>
