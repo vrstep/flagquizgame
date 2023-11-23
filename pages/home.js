@@ -6,6 +6,8 @@ export default function UserList() {
     const [userId, setUserId] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [updateUserId, setUpdateUserId] = useState("");
+    const [deleteUserId, setDeleteUserId] = useState("");
 
     const url = "http://localhost/flagsgame/pages/api/main.php";
 
@@ -128,8 +130,8 @@ export default function UserList() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="userId"
                     type="text"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
+                    value={updateUserId}
+                    onChange={(e) => setUpdateUserId(e.target.value)}
                     placeholder="User ID"
                 />
                 <label
@@ -179,8 +181,8 @@ export default function UserList() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="userId"
                     type="text"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
+                    value={deleteUserId}
+                    onChange={(e) => setDeleteUserId(e.target.value)}
                     placeholder="User ID"
                 />
                 <button
