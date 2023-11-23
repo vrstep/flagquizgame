@@ -5,10 +5,15 @@ import { useRouter } from "next/router";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
 
     const handleLogin = (e) => {
         e.preventDefault();
+        if (email === "" || password === "") {
+            setErrorMessage("Please fill out all fields");
+            return;
+        }
         const url = "http://localhost/flagsgame/pages/api/login.php";
         let data = new FormData();
         data.append("email", email);
@@ -18,14 +23,15 @@ export default function Login() {
             .post(url, data)
             .then((response) => {
                 if (response.data.status === "success") {
-                    // Change this to the actual response field that indicates success
                     alert("Login successful");
                     router.push("/home");
                 } else {
-                    console.log("Login failed: " + response.data.message); // Change 'message' to the actual response field that contains the error message
+                    setErrorMessage(response.data.message);
                 }
             })
-            .catch((error) => alert(error));
+            .catch((error) => {
+                setErrorMessage("Wrong email or password");
+            });
     };
 
     return (
@@ -36,7 +42,11 @@ export default function Login() {
                         Sign in to your account
                     </h2>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+                <form
+                    className="mt-8 space-y-6"
+                    onSubmit={handleLogin}
+                    method="POST"
+                >
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -72,7 +82,9 @@ export default function Login() {
                             />
                         </div>
                     </div>
-
+                    {errorMessage && (
+                        <p className="text-red-500 italic">{errorMessage}</p>
+                    )}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <input
