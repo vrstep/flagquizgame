@@ -23,10 +23,14 @@ export default function UserList() {
     const handleUpdateUser = (e) => {
         e.preventDefault();
         let data = {
-            id: userId,
-            email: email,
-            password: password,
+            id: updateUserId,
         };
+        if (email) {
+            data.email = email;
+        }
+        if (password) {
+            data.password = password;
+        }
         axios
             .put(url, data)
             .then((response) => {
@@ -34,7 +38,7 @@ export default function UserList() {
                 // Refresh user list
                 axios.get(url).then((response) => setUsers(response.data));
                 // Clear the input fields
-                setUserId("");
+                setUpdateUserId("");
                 setEmail("");
                 setPassword("");
             })
@@ -45,7 +49,7 @@ export default function UserList() {
     const handleDeleteUser = (e) => {
         e.preventDefault();
         let data = {
-            id: userId,
+            id: deleteUserId,
         };
         axios
             .delete(url, { data })
@@ -54,7 +58,7 @@ export default function UserList() {
                 // Refresh user list
                 axios.get(url).then((response) => setUsers(response.data));
                 // Clear the input field
-                setUserId("");
+                setDeleteUserId("");
             })
             .catch((error) => alert(error));
     };
