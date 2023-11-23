@@ -35,6 +35,22 @@ export default function UserList() {
             .catch((error) => alert(error));
     };
 
+    // Delete: Delete a user
+    const handleDeleteUser = (e) => {
+        e.preventDefault();
+        let data = {
+            id: userId,
+        };
+        axios
+            .delete(url, { data })
+            .then((response) => {
+                alert("User deleted successfully");
+                // Refresh user list
+                axios.get(url).then((response) => setUsers(response.data));
+            })
+            .catch((error) => alert(error));
+    };
+
     return (
         <div className="overflow-x-hidden">
             <div className="flex flex-col dark:bg-gray-800">
@@ -143,6 +159,29 @@ export default function UserList() {
                     onClick={handleUpdateUser}
                 >
                     Update
+                </button>
+            </div>
+            <div className="mt-5">
+                <h2 className="text-2xl font-bold mb-5">Delete User</h2>
+                <label
+                    className="block text-sm font-bold mb-2"
+                    htmlFor="userId"
+                >
+                    User ID
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="userId"
+                    type="text"
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                    placeholder="User ID"
+                />
+                <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleDeleteUser}
+                >
+                    Delete
                 </button>
             </div>
         </div>
