@@ -1,13 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const url = "http://localhost/flagsgame/pages/api/login.php"; // Change this to your login API endpoint
+        const url = "http://localhost/flagsgame/pages/api/login.php";
         let data = new FormData();
         data.append("email", email);
         data.append("password", password);
@@ -15,12 +17,12 @@ export default function Login() {
         axios
             .post(url, data)
             .then((response) => {
-                if (response.data.success) {
+                if (response.data.status === "success") {
                     // Change this to the actual response field that indicates success
                     alert("Login successful");
                     router.push("/home");
                 } else {
-                    alert("Login failed: " + response.data.message); // Change 'message' to the actual response field that contains the error message
+                    console.log("Login failed: " + response.data.message); // Change 'message' to the actual response field that contains the error message
                 }
             })
             .catch((error) => alert(error));
