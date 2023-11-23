@@ -10,10 +10,10 @@ export default function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        if (email === "" || password === "") {
-            setErrorMessage("Please fill out all fields");
-            return;
-        }
+        // if (email === "" || password === "") {
+        //     setErrorMessage("Please fill out all fields");
+        //     return;
+        // }
         const url = "http://localhost/flagsgame/pages/api/login.php";
         let data = new FormData();
         data.append("email", email);

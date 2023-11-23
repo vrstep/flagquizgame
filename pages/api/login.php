@@ -21,6 +21,21 @@
 
     switch($method) { 
         case 'POST':
+            // Validate email
+            if (empty($user['email'])) {
+                echo json_encode(['status' => 'error', 'message' => 'Please fill out the email field']);
+                exit();  // Stop the script
+            } elseif (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid email format']);
+                exit();  // Stop the script
+            }
+
+            // Validate password
+            if (empty($user['password'])) {
+                echo json_encode(['status' => 'error', 'message' => 'Please fill out the password field']);
+                exit();  // Stop the script
+            }
+
             $sql = "SELECT * FROM users WHERE email = :email";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':email', $user['email']);
@@ -35,3 +50,4 @@
             }
             break;        
     }
+?>
