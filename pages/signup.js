@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
 
     const handleSubmit = (e) => {
@@ -16,9 +17,23 @@ export default function SignUp() {
 
         axios
             .post(url, data)
-            .then((response) => alert(response.data))
-            .catch((error) => alert(error));
-        router.push("/home");
+            .then((response) => {
+                if (response.data.status === "success") {
+                    alert("Login successful");
+                    router.push("/home");
+                } else {
+                    setErrorMessage(response.data.message);
+                }
+            })
+            .catch((error) => {
+                setErrorMessage("Wrong email or password");
+            });
+
+        // axios
+        //     .post(url, data)
+        //     .then((response) => alert(response.data))
+        //     .catch((error) => alert(error));
+        // router.push("/home");
     };
 
     return (
@@ -29,7 +44,11 @@ export default function SignUp() {
                         Sign up for a new account
                     </h2>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <form
+                    className="mt-8 space-y-6"
+                    onSubmit={handleSubmit}
+                    method="POST"
+                >
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -64,6 +83,11 @@ export default function SignUp() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+                        {errorMessage && (
+                            <p className="text-red-500 italic">
+                                {errorMessage}
+                            </p>
+                        )}
                     </div>
                     <div>
                         <button
