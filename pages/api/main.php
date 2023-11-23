@@ -7,8 +7,16 @@
     $objDb = new DbConnect;
     $conn = $objDb->connect();
 
-    // $user = $_POST;
-    $user = json_decode(file_get_contents('php://input'), true);
+    $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+    if ($contentType === "application/json") {
+        //Receive the RAW post data.
+        $content = trim(file_get_contents("php://input"));
+        $user = json_decode($content, true);
+    } else {
+        $user = $_POST;
+    }
+    
     $method = $_SERVER['REQUEST_METHOD'];
 
     switch($method) {
@@ -19,7 +27,7 @@
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($users);
             break;
-            
+
         case 'POST':
             $sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
             $stmt = $conn->prepare($sql);
