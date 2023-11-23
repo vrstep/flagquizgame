@@ -1,12 +1,29 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        // Handle form submission here
+        const url = "http://localhost/flagsgame/pages/api/login.php"; // Change this to your login API endpoint
+        let data = new FormData();
+        data.append("email", email);
+        data.append("password", password);
+
+        axios
+            .post(url, data)
+            .then((response) => {
+                if (response.data.success) {
+                    // Change this to the actual response field that indicates success
+                    alert("Login successful");
+                    router.push("/home");
+                } else {
+                    alert("Login failed: " + response.data.message); // Change 'message' to the actual response field that contains the error message
+                }
+            })
+            .catch((error) => alert(error));
     };
 
     return (
@@ -17,7 +34,7 @@ export default function Login() {
                         Sign in to your account
                     </h2>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <form className="mt-8 space-y-6" onSubmit={handleLogin}>
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -84,6 +101,7 @@ export default function Login() {
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={handleLogin}
                         >
                             Sign in
                         </button>
