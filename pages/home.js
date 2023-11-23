@@ -31,6 +31,10 @@ export default function UserList() {
                 alert("User updated successfully");
                 // Refresh user list
                 axios.get(url).then((response) => setUsers(response.data));
+                // Clear the input fields
+                setUserId("");
+                setEmail("");
+                setPassword("");
             })
             .catch((error) => alert(error));
     };
@@ -47,6 +51,8 @@ export default function UserList() {
                 alert("User deleted successfully");
                 // Refresh user list
                 axios.get(url).then((response) => setUsers(response.data));
+                // Clear the input field
+                setUserId("");
             })
             .catch((error) => alert(error));
     };
