@@ -21,18 +21,17 @@
 
     switch($method) { 
         case 'POST':
-            $sql = "SELECT * FROM users WHERE email = :email AND password = :password";
+            $sql = "SELECT * FROM users WHERE email = :email";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':email', $user['email']);
-            $stmt->bindParam(':password', $user['password']);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-            if ($result) {
+            if ($result && password_verify($user['password'], $result['password'])) {
                 echo json_encode(['status' => 'success', 'message' => 'Login successful']);
             } else {
                 http_response_code(401);
                 echo json_encode(['status' => 'error', 'message' => 'Wrong email or password']);
             }
-            break;
+            break;        
     }

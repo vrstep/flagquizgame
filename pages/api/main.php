@@ -29,14 +29,15 @@
             break;
 
         case 'POST':
+            $passwordHash = password_hash($user['password'], PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':email', $user['email']);
-            $stmt->bindParam(':password', $user['password']);
+            $stmt->bindParam(':password', $passwordHash);
             $stmt->execute();
             echo json_encode($user);
             break;
-
+            
         case 'PUT':
             $sql = "UPDATE users SET ";
             if (isset($user['email'])) {
