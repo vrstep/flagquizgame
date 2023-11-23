@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,6 +18,7 @@ export default function SignUp() {
             .post(url, data)
             .then((response) => alert(response.data))
             .catch((error) => alert(error));
+        router.push("/home");
     };
 
     return (
@@ -62,7 +65,6 @@ export default function SignUp() {
                             />
                         </div>
                     </div>
-
                     <div>
                         <button
                             type="submit"

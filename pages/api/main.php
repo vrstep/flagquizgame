@@ -1,13 +1,16 @@
 <?php
-
     header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+    header("Access-Control-Allow-Headers: Content-Type");
+    
     include 'dbConnect.php';
-
     $objDb = new DbConnect;
     $conn = $objDb->connect();
 
-    $user = $_POST;
+    // $user = $_POST;
+    $user = json_decode(file_get_contents('php://input'), true);
     $method = $_SERVER['REQUEST_METHOD'];
+
     switch($method) {
         case 'GET':
             $sql = "SELECT * FROM users";
@@ -33,5 +36,5 @@
             $stmt->execute();
             echo json_encode($user);
             break;
-    }
-?>
+        }
+?>     
