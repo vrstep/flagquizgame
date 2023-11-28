@@ -18,8 +18,6 @@ export default function FlagList() {
         axios
             .get(url)
             .then((response) => {
-                console.log(response.data);
-                console.log(response); // Add this line
                 setFlags(response.data);
             })
             .catch((error) => console.error(error));
@@ -169,6 +167,55 @@ export default function FlagList() {
                 </div>
             </div>
             <div className="mt-5">
+                <h2 className="text-2xl font-bold mb-5">Add Flag</h2>
+                <label
+                    className="block text-sm font-bold mb-2"
+                    htmlFor="country"
+                >
+                    Country
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="country"
+                    type="text"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    placeholder="Country"
+                />
+                <label
+                    className="block text-sm font-bold mb-2 mt-4"
+                    htmlFor="code"
+                >
+                    Code
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="code"
+                    type="text"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder="Code"
+                />
+                <label
+                    className="block text-sm font-bold mb-2 mt-4"
+                    htmlFor="image"
+                >
+                    Image
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="image"
+                    type="file"
+                    onChange={(e) => setImage(e.target.files[0])}
+                />
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleAddFlag}
+                >
+                    Add
+                </button>
+            </div>
+            <div className="mt-5">
                 <h2 className="text-2xl font-bold mb-5">Update Flag</h2>
                 <label
                     className="block text-sm font-bold mb-2"
@@ -184,9 +231,76 @@ export default function FlagList() {
                     onChange={(e) => setUpdateFlagId(e.target.value)}
                     placeholder="Flag ID"
                 />
-                {/* ...similar changes for other input fields... */}
+                <label
+                    className="block text-sm font-bold mb-2 mt-4"
+                    htmlFor="country"
+                >
+                    Country
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="country"
+                    type="text"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    placeholder="Country"
+                />
+                <label
+                    className="block text-sm font-bold mb-2 mt-4"
+                    htmlFor="code"
+                >
+                    Code
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="code"
+                    type="text"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder="Code"
+                />
+                <label
+                    className="block text-sm font-bold mb-2 mt-4"
+                    htmlFor="image"
+                >
+                    Image
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="image"
+                    type="file"
+                    onChange={(e) => setImage(e.target.files[0])}
+                />
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleUpdateFlag}
+                >
+                    Update
+                </button>
             </div>
-            {/* ...existing code... */}
+            <div className="mt-5">
+                <h2 className="text-2xl font-bold mb-5">Delete Flag</h2>
+                <label
+                    className="block text-sm font-bold mb-2"
+                    htmlFor="flagId"
+                >
+                    Flag ID
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="flagId"
+                    type="text"
+                    value={deleteFlagId}
+                    onChange={(e) => setDeleteFlagId(e.target.value)}
+                    placeholder="Flag ID"
+                />
+                <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleDeleteFlag}
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     );
 }

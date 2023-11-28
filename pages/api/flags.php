@@ -36,30 +36,48 @@
             echo json_encode($flags);
             break;
 
-        case 'POST':
-            // Validate country name
-            if (empty($flag['country'])) {
-                echo json_encode(['status' => 'error', 'message' => 'Please fill out the country field']);
-                exit();  // Stop the script
-            }
-
-            // Validate country code
-            if (empty($flag['code'])) {
-                echo json_encode(['status' => 'error', 'message' => 'Please fill out the country code field']);
-                exit();  // Stop the script
-            }
-
-            // Check if flag already exists
-            $sql = "SELECT * FROM flags WHERE country = :country";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':country', $flag['country']);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($result) {
-                echo json_encode(['status' => 'error', 'message' => 'Flag already exists']);
-                exit();  // Stop the script
-            }
+            case 'POST':
+                // Validate country name
+                if (empty($flag['country'])) {
+                    echo json_encode(['status' => 'error', 'message' => 'Please fill out the country field']);
+                    exit();  // Stop the script
+                }
+            
+                // Validate country code
+                if (empty($flag['code'])) {
+                    echo json_encode(['status' => 'error', 'message' => 'Please fill out the country code field']);
+                    exit();  // Stop the script
+                }
+            
+                // Validate image
+                if (!isset($_FILES['image'])) {
+                    echo json_encode(['status' => 'error', 'message' => 'Image file is required']);
+                    exit();  // Stop the script
+                }
+            
+                // Check if flag already exists
+                $sql = "SELECT * FROM flags WHERE country = :country";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':country', $flag['country']);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+                if ($result) {
+                    echo json_encode(['status' => 'error', 'message' => 'Flag already exists']);
+                    exit();  // Stop the script
+                }
+            
+                // Insert new flag
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+                $sql = "INSERT INTO flags (country, code, image) VALUES (:country, :code, :image)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':country', $flag['country']);
+                $stmt->bindParam(':code', $flag['code']);
+                $stmt->bindParam(':image', $image, PDO::PARAM_LOB);
+                $stmt->execute();
+                echo json_encode(['status' => 'success', 'message' => 'Flag added successfully']);
+                break;
+            
 
             $sql = "INSERT INTO flags (country, code, image) VALUES (:country, :code, :image)";
             $stmt = $conn->prepare($sql);
